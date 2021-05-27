@@ -1,0 +1,9 @@
+<p-menu #menu [popup]="true" [model]="itemsUser"></p-menu>
+<p-menubar [model]="items">
+  <ng-template pTemplate="end">
+    <p-avatar icon="pi pi-user" styleClass="p-mr-2"
+      [style]="{'background-color': 'var(--bluegray-500)', 'color': '#ffffff'}"
+      pTooltip="{{this.colServ.userLogin.nombreUsuario}}" tooltipPosition="left" (click)="menu.toggle($event)">
+    </p-avatar>
+  </ng-template>
+</p-menubar>

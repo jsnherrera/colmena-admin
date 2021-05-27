@@ -1,0 +1,102 @@
+<p-confirmDialog header="Confirmación" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+
+<p-dialog header="{{strTitulo}}" [(visible)]="displayMaximizable" [modal]="true" [breakpoints]="{'960px': '75vw'}"
+  [style]="{width: '60vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <div class="card">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-6">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" [(ngModel)]="selectedProduct.nombre" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="descripcion">Descripcion</label>
+        <input id="descripcion" type="text" [(ngModel)]="selectedProduct.descripcion" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="imagen">Imagen</label>
+        <input id="imagen" type="text" [(ngModel)]="selectedProduct.imagen" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="categoria">Categoria</label>
+        <input id="categoria" type="text" [(ngModel)]="selectedProduct.categoria" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="preciocompra">Precio compra</label>
+        <input id="preciocompra" type="number" [(ngModel)]="selectedProduct.preciocompra" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="precioventa">Precio venta</label>
+        <input id="precioventa" type="number" [(ngModel)]="selectedProduct.precioventa" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="cantidad">Cantidad</label>
+        <input id="precioventa" type="number" [(ngModel)]="selectedProduct.cantidad" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+      </div>
+
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="guardarProducto()" label="Guardar" styleClass="p-button-text">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+<div class="card">
+  <p-table #dt1 [value]="productos" styleClass="p-datatable-responsive-demo" [loading]="pbLoading" [paginator]="true"
+    [rows]="rows" [showCurrentPageReport]=" false" dataKey="id" [contextMenu]="cm"
+    [(contextMenuSelection)]="selectedProduct" selectionMode="single"
+    [globalFilterFields]="['nombre','descripcion','categoria']">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-flex-column p-flex-md-row p-ai-lg-center p-ai-md-center p-jc-between">
+        <span class="p-mb-2 p-mb-md-0">Productos</span>
+        <span class="p-input-icon-left p-mx-lg-auto p-mx-md-auto p-mb-2 p-mb-md-0">
+          <i class="pi pi-search"></i>
+          <input pInputText type="search" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+            placeholder="Buscar Producto" />
+        </span>
+        <p-button icon="pi pi-plus" styleClass="p-mr-1" (click)="nuevoProducto()" tooltipPosition="bottom"
+          pTooltip="Nuevo">
+        </p-button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>nombre</th>
+        <th>descripcion</th>
+        <th>categoria</th>
+        <th>preciocompra</th>
+        <th>precioventa</th>
+        <th>cantidad</th>
+        <th>imagen</th>
+        <th>fechaaudit</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr [pContextMenuRow]="product">
+        <td><span class="p-column-title">nombre</span>{{product.nombre}}</td>
+        <td><span class="p-column-title">descripcion</span>{{product.descripcion}}</td>
+        <td><span class="p-column-title">categoria</span>{{product.categoria}}</td>
+        <td><span class="p-column-title">preciocompra</span>{{product.preciocompra | currency:'USD'}}</td>
+        <td><span class="p-column-title">precioventa</span>{{product.precioventa | currency:'USD'}}</td>
+        <td><span class="p-column-title">cantidad</span><span
+            [class]="'product-badge status-' + (product.cantidad > 10 ? 'instock' : product.cantidad < 1 ? 'outofstock' : 'lowstock')">{{product.cantidad
+            > 0 ?
+            'DISPONIBLE':'AGOTADO'}}</span>
+        </td>
+        <td><span class="p-column-title">imagen</span><img [src]="product.imagen" [alt]="product.nombre" width="100"
+            class="p-shadow-4" /></td>
+        <td><span class="p-column-title">fechaaudit</span>{{product.fechaaudit | date: 'short'}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8">
+          No results found
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

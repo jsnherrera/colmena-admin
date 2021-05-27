@@ -1,0 +1,76 @@
+<p-toast></p-toast>
+<p-confirmDialog header="Confirmación" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+
+<p-dialog header="{{strTitulo}}" [(visible)]="displayMaximizable" [modal]="true" [breakpoints]="{'960px': '75vw'}"
+  [style]="{width: '60vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <div class="card">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-6">
+        <label for="nombreUsuario">Usuario</label>
+        <input id="nombreUsuario" type="text" [(ngModel)]="selectedUser.nombreUsuario" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" [(ngModel)]="selectedUser.nombre" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="email">Email</label>
+        <input id="email" type="email" [(ngModel)]="selectedUser.email" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="password">Password</label>
+        <input id="password" type="password" [(ngModel)]="selectedUser.password" pInputText>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="guardarUsuario()" label="Guardar" styleClass="p-button-text">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+<div class="card">
+  <p-table #dt1 [value]="usuarios" styleClass="p-datatable-responsive-demo" [loading]="pbLoading" [paginator]="true"
+    [rows]="rows" [showCurrentPageReport]=" false" dataKey="id" [contextMenu]="cm"
+    [(contextMenuSelection)]="selectedUser" selectionMode="single" [globalFilterFields]="['nombre','email','usuario']">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-flex-column p-flex-md-row p-ai-lg-center p-ai-md-center p-jc-between">
+        <span class="p-mb-2 p-mb-md-0">Usuarios</span>
+        <span class="p-input-icon-left p-mx-lg-auto p-mx-md-auto p-mb-2 p-mb-md-0">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+            placeholder="Buscar Usuario" />
+        </span>
+        <p-button icon="pi pi-plus" styleClass="p-mr-1" (click)="nuevoUsuario()" tooltipPosition="bottom"
+          pTooltip="Nuevo">
+        </p-button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>usuario</th>
+        <th>nombre</th>
+        <th>email</th>
+        <th>fechaaudit</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr [pContextMenuRow]="user">
+        <td><span class="p-column-title">usuario</span>
+          {{user.nombreUsuario}}
+        </td>
+        <td><span class="p-column-title">nombre</span>{{user.nombre}}</td>
+        <td><span class="p-column-title">email</span>{{user.email}}</td>
+        <td><span class="p-column-title">fechaaudit</span>{{user.fechaaudit | date: 'short'}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">
+          No results found
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

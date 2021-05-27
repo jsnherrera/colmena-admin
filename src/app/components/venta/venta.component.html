@@ -1,0 +1,88 @@
+<div class="card">
+  <p-table #dt1 [value]="ventas" styleClass="p-datatable-responsive-demo" [loading]="pbLoading" [paginator]="true"
+    [rows]="rows" [showCurrentPageReport]=" false" dataKey="id" selectionMode="single"
+    [globalFilterFields]="['fechaaudit']">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-flex-column p-flex-md-row p-ai-lg-center p-ai-md-center p-jc-between">
+        <span class="p-mb-2 p-mb-md-0">Ventas</span>
+        <span class="p-input-icon-left p-mx-lg-auto p-mx-md-auto p-mb-2 p-mb-md-0">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+            placeholder="Buscar Venta" />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem"></th>
+        <th>fechaaudit</th>
+        <th>usuario</th>
+        <th>efectivo</th>
+        <th>cambio</th>
+        <th>total</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-venta let-expanded="expanded">
+      <tr [pContextMenuRow]="user">
+        <td>
+          <button type="button" pButton pRipple [pRowToggler]="venta"
+            class="p-button-text p-button-rounded p-button-plain"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+        </td>
+        <td><span class="p-column-title">fechaaudit</span>{{venta.fechaaudit | date: 'short'}}</td>
+        <td><span class="p-column-title">usuario</span>{{venta.usuario.nombreUsuario}}</td>
+        <td><span class="p-column-title">efectivo</span>{{venta.efectivoventa | currency:'USD'}}</td>
+        <td><span class="p-column-title">cambio</span>{{venta.cambioventa | currency:'USD'}}</td>
+        <td><span class="p-column-title">total</span>{{venta.totalventa | currency:'USD'}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">
+          No results found
+        </td>
+      </tr>
+    </ng-template>
+
+
+
+
+
+
+
+    <ng-template pTemplate="rowexpansion" let-venta>
+      <tr>
+        <td colspan="6">
+          <div class="p-p-3">
+            <p-table [value]="venta.detalles" dataKey="id">
+              <ng-template pTemplate="header">
+      <tr>
+        <th>producto</th>
+        <th>cantidad</th>
+        <th>precio</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order>
+      <tr>
+        <td>{{order.producto.nombre}}</td>
+        <td>{{order.cantidad}}</td>
+        <td>{{order.precio | currency:'USD'}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3">No results found</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+</td>
+</tr>
+</ng-template>
+
+
+
+
+
+</p-table>
+</div>

@@ -1,0 +1,144 @@
+<p-toast [baseZIndex]="10002"></p-toast>
+<p-confirmDialog header="Confirmación" icon="pi pi-exclamation-triangle" [baseZIndex]="10001"></p-confirmDialog>
+
+<p-dialog header="{{strTitulo}}" [(visible)]="displayMaximizable" [modal]="true" [breakpoints]="{'960px': '75vw'}"
+  [style]="{width: '40vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+
+  <div class="card">
+
+    <ng-template ngFor let-ticket [ngForOf]="miTiket" let-i="index">
+      <div class="product-item">
+        <div class="image-container">
+          <img src="{{ticket.imagen}}" [alt]="ticket.nombre" class="product-image" />
+        </div>
+        <div class="product-list-detail">
+          <h5 class="p-mb-2">{{ticket.nombre}}</h5>
+          <i class="pi pi-tag product-category-icon"></i>
+          <span class="product-category">{{ticket.categoria}}</span>
+        </div>
+        <div class="product-list-action">
+          <h5 class="p-mb-1">Precio unitario: {{ticket.precioventa | currency:'USD'}}</h5>
+          <h5>Cantidad: </h5>
+          <div class="p-grid p-ai-center vertical-container">
+            <div class="p-col">
+              <button pButton pRipple type="button" icon="pi pi-minus"
+                class="p-button-rounded p-button-danger p-button-text p-button-sm"
+                (click)="restarCantidad(ticket)"></button>
+            </div>
+            <div class="p-col">
+              {{ticket.cantidadticket}}
+            </div>
+            <div class="p-col">
+              <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-text p-button-sm"
+                (click)="addCantidad(ticket)"></button>
+
+            </div>
+          </div>
+          <h5 class="p-mb-1">Precio: {{ticket.precioticket | currency:'USD'}}</h5>
+        </div>
+      </div>
+    </ng-template>
+
+
+
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-4">
+        <label for="efectivo">Efectivo</label>
+        <input id="efectivo" type="number" [(ngModel)]="efectivo" (keyup)="calcularTotales()" style="text-align:right"
+          pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label for="cambio">Cambio</label>
+        <input id="cambio" type="number" [(ngModel)]="cambio" readonly="readonly" style="text-align:right" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label for="total">Total</label>
+        <input id="total" type="number" [(ngModel)]="total" readonly="readonly" style="text-align:right" pInputText>
+      </div>
+    </div>
+
+
+
+
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="confirmLimpiar()" label="Limpiar Ticket"
+      styleClass="p-button-text p-button-danger">
+    </p-button>
+    <p-button icon="pi pi-check" (click)="confirmVenta()" label="Guardar Venta" styleClass="p-button-text">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+
+
+
+<div class="card">
+  <p-dataView #dv [value]="products" [paginator]="true" [rows]="12" filterBy="nombre" [sortField]="sortField"
+    [sortOrder]="sortOrder" layout="grid">
+    <ng-template pTemplate="header">
+      <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+        <p-button icon="pi pi-ticket" label="Ticket" styleClass="p-mr-1 p-button-danger p-mb-2 p-mb-md-0"
+          (click)="verTicket()" pTooltip="Ver" tooltipPosition="bottom">
+        </p-button>
+        <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+          <i class="pi pi-search"></i>
+          <input type="search" pInputText placeholder="Buscar Producto" (input)="dv.filter($event.target.value)">
+        </span>
+        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+      </div>
+    </ng-template>
+    <ng-template let-product pTemplate="listItem">
+      <div class="p-col-12">
+        <div class="product-list-item">
+          <img [src]="product.imagen" [alt]="product.nombre" />
+          <div class="product-list-detail">
+            <div class="product-name">
+              {{product.nombre}}
+            </div>
+            <div class="product-description">{{product.descripcion}}</div>
+            <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+            <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.categoria}}</span>
+          </div>
+          <div class="product-list-action">
+            <span class="product-price">{{product.precioventa | currency:'USD'}}</span>
+            <p-button icon="pi pi-shopping-cart" label="Añadir a ticket" [disabled]="product.cantidad < 1"
+              (click)="addCarrito(product)"></p-button>
+            <span
+              [class]="'product-badge status-' + (product.cantidad > 10 ? 'instock' : product.cantidad < 1 ? 'outofstock' : 'lowstock')">{{product.cantidad
+              > 0 ?
+              'DISPONIBLE':'AGOTADO'}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template let-product pTemplate="gridItem">
+      <div class="p-col-12 p-md-4">
+        <div class="product-grid-item card">
+          <div class="product-grid-item-top">
+            <div>
+              <i class="pi pi-tag product-category-icon"></i>
+              <span class="product-category">{{product.categoria}}</span>
+            </div>
+            <span
+              [class]="'product-badge status-' + (product.cantidad > 10 ? 'instock' : product.cantidad < 1 ? 'outofstock' : 'lowstock')">{{product.cantidad
+              > 0 ?
+              'DISPONIBLE':'AGOTADO'}}
+            </span>
+          </div>
+          <div class="product-grid-item-content">
+            <img [src]="product.imagen" [alt]="product.nombre" />
+            <div class="product-name">{{product.nombre}}</div>
+            <div class="product-description">{{product.descripcion}}</div>
+            <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+          </div>
+          <div class="product-grid-item-bottom">
+            <span class="product-price">{{product.precioventa | currency:'USD'}}</span>
+            <p-button icon="pi pi-shopping-cart" [disabled]="product.cantidad < 1" (click)="addCarrito(product)">
+            </p-button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>

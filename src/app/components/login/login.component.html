@@ -1,0 +1,23 @@
+<p-toast></p-toast>
+<div class="container">
+  <div class="left">
+    <div class="header">
+      <h2 class="animation a1">Bienvenido</h2>
+      <h4 class="animation a2">Inicia sesión con tu usuario ó email</h4>
+    </div>
+    <div class="form">
+      <input #inuser type="email" class="form-field animation a3" placeholder="Email Address" [(ngModel)]="username"
+        (keypress)="keypressUsername($event)">
+      <p-message severity="error" text="Email is required" *ngIf="username.length<1 && validLogin">
+      </p-message>
+      <input #inpass type="password" class="form-field animation a4" placeholder="Password" [(ngModel)]="password"
+        (keypress)="keypressPassword($event)">
+      <p-message severity="error" text="Password is required" *ngIf="password.length<1 && validLogin">
+      </p-message>
+      <p class="animation a5"><a href="#">¿Olvidaste tu password?</a></p>
+      <button pButton type="button" icon="pi pi-check" iconPos="left" label="Log In" class="animation a6"
+        (click)="login()"></button>
+    </div>
+  </div>
+  <div class="right"></div>
+</div>
