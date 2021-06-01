@@ -11,8 +11,8 @@ import { CryptoService } from './crypto.service';
 })
 export class ColmenaService {
 
-  private baseUrl = 'http://localhost:8080/colmena-admin/v1/api/';
-  // private baseUrl = 'https://colmena-admin-api.herokuapp.com/colmena-admin/v1/api/';
+  // private baseUrl = 'http://localhost:8080/colmena-admin/v1/api/';
+  private baseUrl = 'https://colmena-admin-api.herokuapp.com/colmena-admin/v1/api/';
 
   public isLogIn = false;
   public userLogin: Usuario;
