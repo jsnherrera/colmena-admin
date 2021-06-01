@@ -1,10 +1,7 @@
 <p-toast [baseZIndex]="10002"></p-toast>
 <p-confirmDialog icon="pi pi-exclamation-triangle" [baseZIndex]="10001"></p-confirmDialog>
 
-
-
-
-<p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
+<p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false">
   <ng-template pTemplate>
     <div class="card">
       <ng-template ngFor let-ticket [ngForOf]="miTiket" let-i="index">
