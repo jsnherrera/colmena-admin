@@ -1,18 +1,20 @@
-<p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false">
-  <ng-template pTemplate>
-    <div class="p-field p-fluid">
-      <input id="username1" type="username" aria-describedby="username1-help" pInputText [(ngModel)]="value4"
-        placeholder="Email" />
-      <small id="username1-help">La contraseña será enviada a tu correo.</small>
-    </div>
-    <div class="p-field">
-      <p-button icon="pi pi-envelope" label="Enviar" styleClass="p-button-outlined" (click)="op.hide()" ></p-button>
-    </div>
+<p-dialog header="¿Olvidaste tu password?" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '30vw'}"
+  [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [breakpoints]="{'400px': '100vw'}">
+  <div class="p-field p-fluid">
+    <input id="username1" type="username" aria-describedby="username1-help" pInputText [(ngModel)]="usernameForget"
+      placeholder="Email" />
+    <p-message severity="error" text="Email is required" *ngIf="usernameForget.length<1 && validLoginForget">
+    </p-message>
+    <small id="username1-help">La contraseña será enviada a tu correo.</small>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-envelope" label="Enviar" styleClass="p-button-outlined" (click)="enviarMail()">
+    </p-button>
   </ng-template>
-</p-overlayPanel>
+</p-dialog>
 
 
-<p-toast></p-toast>
+<p-toast [baseZIndex]="10001"></p-toast>
 <div class="container">
   <div class="left">
     <div class="header">
@@ -28,7 +30,7 @@
         (keypress)="keypressPassword($event)">
       <p-message severity="error" text="Password is required" *ngIf="password.length<1 && validLogin">
       </p-message>
-      <p class="animation a5"><a (click)="op.toggle($event)">¿Olvidaste tu password?</a></p>
+      <p class="animation a5"><a (click)="showMaximizableDialog()">¿Olvidaste tu password?</a></p>
       <button pButton type="button" icon="pi pi-check" iconPos="left" label="Log In" class="animation a6"
         (click)="login()"></button>
     </div>

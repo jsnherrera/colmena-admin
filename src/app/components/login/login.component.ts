@@ -17,6 +17,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
   username = '';
   password = '';
   validLogin = false;
+  displayMaximizable = false;
+  usernameForget = '';
+  validLoginForget = false;
 
   constructor(
     private colServ: ColmenaService,
@@ -25,6 +28,18 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
+  }
+
+  enviarMail(): void {
+    if (this.usernameForget) {
+      this.displayMaximizable = false;
+      this.showSToast(severity.success, 'Tu password fue enviado a tu correo');
+    }
+    this.validLoginForget = true;
+  }
+
+  showMaximizableDialog(): void {
+    this.displayMaximizable = true;
   }
 
   keypressUsername(event: any): void {
