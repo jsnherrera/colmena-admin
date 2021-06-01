@@ -1,25 +1,33 @@
 <p-confirmDialog icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <p-contextMenu #cm [model]="items"></p-contextMenu>
 
-<p-dialog header="{{strTitulo}}" [(visible)]="displayMaximizable" [modal]="true" [breakpoints]="{'400px': '100vw'}"
+<p-dialog header="{{strTitulo}}" [(visible)]="displayMaximizable" [modal]="true" [breakpoints]="{'700px': '100vw'}"
   [style]="{width: '70vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
   <div class="card">
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col-12 p-md-6">
         <label for="nombre">Nombre</label>
         <input id="nombre" type="text" [(ngModel)]="selectedProduct.nombre" pInputText>
+        <p-message severity="error" text="Email is required" *ngIf="selectedProduct.nombre.length<1 && validSubmit">
+        </p-message>
       </div>
       <div class="p-field p-col-12 p-md-6">
         <label for="descripcion">Descripcion</label>
         <input id="descripcion" type="text" [(ngModel)]="selectedProduct.descripcion" pInputText>
+        <p-message severity="error" text="Email is required"
+          *ngIf="selectedProduct.descripcion.length<1 && validSubmit"></p-message>
       </div>
       <div class="p-field p-col-12 p-md-6">
         <label for="imagen">Imagen</label>
         <input id="imagen" type="text" [(ngModel)]="selectedProduct.imagen" pInputText>
+        <p-message severity="error" text="Email is required" *ngIf="selectedProduct.imagen.length<1 && validSubmit">
+        </p-message>
       </div>
       <div class="p-field p-col-12 p-md-6">
         <label for="categoria">Categoria</label>
         <input id="categoria" type="text" [(ngModel)]="selectedProduct.categoria" pInputText>
+        <p-message severity="error" text="Email is required" *ngIf="selectedProduct.categoria.length<1 && validSubmit">
+        </p-message>
       </div>
       <div class="p-field p-col-12 p-md-6">
         <label for="preciocompra">Precio compra</label>
@@ -28,10 +36,14 @@
       <div class="p-field p-col-12 p-md-6">
         <label for="precioventa">Precio venta</label>
         <input id="precioventa" type="number" [(ngModel)]="selectedProduct.precioventa" pInputText>
+        <p-message severity="error" text="Email is required" *ngIf="selectedProduct.precioventa<=0.0 && validSubmit">
+        </p-message>
       </div>
       <div class="p-field p-col-12 p-md-6">
         <label for="cantidad">Cantidad</label>
         <input id="precioventa" type="number" [(ngModel)]="selectedProduct.cantidad" pInputText>
+        <p-message severity="error" text="Email is required" *ngIf="selectedProduct.cantidad<=0 && validSubmit">
+        </p-message>
       </div>
       <div class="p-field p-col-12 p-md-6">
       </div>

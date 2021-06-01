@@ -17,6 +17,7 @@ export class ProductoComponent implements OnInit {
   items: MenuItem[];
   strTitulo = '';
   displayMaximizable: boolean;
+  validSubmit = false;
 
   constructor(
     private colmenaServ: ColmenaService,
@@ -48,7 +49,13 @@ export class ProductoComponent implements OnInit {
   }
 
   guardarProducto(): void {
-    if (this.selectedProduct) {
+    if (this.selectedProduct &&
+      this.selectedProduct.nombre &&
+      this.selectedProduct.descripcion &&
+      this.selectedProduct.imagen &&
+      this.selectedProduct.categoria &&
+      this.selectedProduct.precioventa > 0
+      && this.selectedProduct.cantidad > 0) {
       this.colmenaServ.saveProducto(this.selectedProduct).subscribe(
         (result: any) => {
           if (result.codigo === 0) {
@@ -68,6 +75,7 @@ export class ProductoComponent implements OnInit {
         }
       );
     }
+    this.validSubmit = true;
   }
 
   confirmDelete(): void {

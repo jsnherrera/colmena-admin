@@ -1,7 +1,7 @@
 <p-toast [baseZIndex]="10002"></p-toast>
 <p-confirmDialog icon="pi pi-exclamation-triangle" [baseZIndex]="10001"></p-confirmDialog>
 
-<p-dialog header="{{strTitulo}}" [(visible)]="displayMaximizable" [modal]="true" [breakpoints]="{'400px': '100vw'}"
+<p-dialog header="{{strTitulo}}" [(visible)]="displayMaximizable" [modal]="true" [breakpoints]="{'700px': '100vw'}"
   [style]="{width: '60vw'}" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
   <div class="card">
     <ng-template ngFor let-ticket [ngForOf]="miTiket" let-i="index">

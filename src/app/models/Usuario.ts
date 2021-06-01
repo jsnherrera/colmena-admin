@@ -1,9 +1,9 @@
 export class Usuario {
   public id: number;
-  public nombreUsuario: string;
-  public nombre: string;
-  public email: string;
-  public password: string;
+  public nombreUsuario = '';
+  public nombre = '';
+  public email = '';
+  public password = '';
   public estatus: number;
   public fechaaudit: Date;
   constructor(

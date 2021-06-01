@@ -18,6 +18,7 @@ export class UsuarioComponent implements OnInit {
   items: MenuItem[];
   strTitulo = '';
   displayMaximizable: boolean;
+  validSubmit = false;
 
   constructor(
     private colmenaServ: ColmenaService,
@@ -59,32 +60,40 @@ export class UsuarioComponent implements OnInit {
 
   guardarUsuario(strOper: string): void {
 
-    if (strOper === 'eliminar') {
-      if (this.selectedUser.id === this.colmenaServ.userLogin.id) {
-        this.showToast(severity.error, 'No es posible eliminar el usuario con el que estas logueado');
-        return;
-      }
-      this.selectedUser.estatus = 0;
-    }
+    if (this.selectedUser &&
+      this.selectedUser.nombreUsuario &&
+      this.selectedUser.nombre &&
+      this.selectedUser.email &&
+      this.selectedUser.password) {
 
-    this.colmenaServ.saveUsuario(this.selectedUser).subscribe(
-      (result: any) => {
-        if (result.codigo === 0) {
-          if (this.strTitulo === 'Nuevo usuario') {
-            this.usuarios.push(result.usuario);
-          }
-          if (strOper === 'eliminar') {
-            this.usuarios.splice(this.usuarios.lastIndexOf(this.selectedUser), 1);
-          }
-          this.displayMaximizable = false;
+      if (strOper === 'eliminar') {
+        if (this.selectedUser.id === this.colmenaServ.userLogin.id) {
+          this.showToast(severity.error, 'No es posible eliminar el usuario con el que estas logueado');
+          return;
         }
-        else {
-          console.log(result);
-        }
-      }, err => {
-        console.log(err);
+        this.selectedUser.estatus = 0;
       }
-    );
+
+      this.colmenaServ.saveUsuario(this.selectedUser).subscribe(
+        (result: any) => {
+          if (result.codigo === 0) {
+            if (this.strTitulo === 'Nuevo usuario') {
+              this.usuarios.push(result.usuario);
+            }
+            if (strOper === 'eliminar') {
+              this.usuarios.splice(this.usuarios.lastIndexOf(this.selectedUser), 1);
+            }
+            this.displayMaximizable = false;
+          }
+          else {
+            console.log(result);
+          }
+        }, err => {
+          console.log(err);
+        }
+      );
+    }
+    this.validSubmit = true;
   }
 
   confirmDelete(): void {
@@ -107,7 +116,6 @@ export class UsuarioComponent implements OnInit {
       { label: 'Editar', icon: 'pi pi-fw pi-pencil', command: () => this.editarUsuario() },
       { label: 'Eliminar', icon: 'pi pi-fw pi-times', command: () => this.confirmDelete() }
     ];
-
   }
 
 }
