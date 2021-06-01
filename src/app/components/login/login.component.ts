@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ColmenaService } from 'src/app/services/colmena.service';
 import { CryptoService } from 'src/app/services/crypto.service';
 
@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private colServ: ColmenaService,
     private miRouter: Router,
     private cryptoServ: CryptoService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {
   }
 
@@ -42,15 +43,20 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (this.username && this.password) {
       this.colServ.getUsuarioLogin(this.username).subscribe(
         (result: any) => {
-          if (result.usuario) {
-            if (this.password === this.cryptoServ.decrypt(result.usuario.password)) {
-              this.colServ.isLogIn = true;
-              this.colServ.userLogin = result.usuario;
-              this.miRouter.navigate(['tablero']);
+          if (result.codigo === 0) {
+            if (result.usuario) {
+              if (this.password === this.cryptoServ.decrypt(result.usuario.password)) {
+                this.colServ.isLogIn = true;
+                this.colServ.userLogin = result.usuario;
+                this.miRouter.navigate(['tablero']);
+              }
+            }
+            if (!this.colServ.isLogIn) {
+              this.showSToast(severity.error, 'Usuario/Email incorrectos');
             }
           }
-          if (!this.colServ.isLogIn) {
-            this.showSToast(severity.error, 'LogIn Fail', 'Usuario/Email incorrectos');
+          else {
+            console.log(result);
           }
         }
       );
@@ -58,8 +64,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.validLogin = true;
   }
 
-  showSToast(severityToast: string, summary: string, detail: string): void {
-    this.messageService.add({ severity: severityToast, summary, detail });
+  showSToast(severityToast: string, detail: string): void {
+    this.messageService.add({ severity: severityToast, summary: 'Alerta', detail });
   }
 
   ngOnInit(): void {

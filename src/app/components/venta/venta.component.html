@@ -1,7 +1,29 @@
+<p-confirmDialog icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-contextMenu #cm [model]="items"></p-contextMenu>
 <div class="card">
+
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-12 p-md-4">
+      <p-calendar inputId="fechaini" [(ngModel)]="fechaini" placeholder="Fecha inicio"></p-calendar>
+    </div>
+    <div class="p-field p-col-12 p-md-4">
+      <p-calendar inputId="fechafin" [(ngModel)]="fechafin" placeholder="Fecha final"></p-calendar>
+    </div>
+  </div>
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-12 p-md-6">
+      <p-button label="Consultar" (click)="getVentas()"></p-button>
+    </div>
+    <div class="p-flield p-col-12 p-md-6">
+      <p-button label="Limpiar" styleClass="p-button-secondary" (click)="limpiar()"></p-button>
+    </div>
+  </div>
+  <br>
+
   <p-table #dt1 [value]="ventas" styleClass="p-datatable-responsive-demo" [loading]="pbLoading" [paginator]="true"
     [rows]="rows" [showCurrentPageReport]=" false" dataKey="id" selectionMode="single"
-    [globalFilterFields]="['fechaaudit']">
+    [globalFilterFields]="['fechaaudit','usuario.nombreUsuario']" [(contextMenuSelection)]="selectedVenta"
+    [contextMenu]="cm">
     <ng-template pTemplate="caption">
       <div class="p-d-flex p-flex-column p-flex-md-row p-ai-lg-center p-ai-md-center p-jc-between">
         <span class="p-mb-2 p-mb-md-0">Ventas</span>
@@ -23,7 +45,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-venta let-expanded="expanded">
-      <tr [pContextMenuRow]="user">
+      <tr [pContextMenuRow]="venta">
         <td>
           <button type="button" pButton pRipple [pRowToggler]="venta"
             class="p-button-text p-button-rounded p-button-plain"

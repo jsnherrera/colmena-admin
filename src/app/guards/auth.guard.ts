@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
       this.miRouter.navigate(['login']);
     }
     return this.colServ.isLogIn;
+    // return true;
   }
 
 }

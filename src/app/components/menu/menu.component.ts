@@ -28,8 +28,9 @@ export class MenuComponent implements OnInit {
   confirmCerrar(): void {
     this.confirmationService.confirm({
       message: '¿Estás seguro de cerrar sesión?',
-      header: 'Cerrar sesión',
+      header: 'Alerta',
       acceptLabel: 'Si',
+      rejectButtonStyleClass: 'p-button-secondary',
       accept: () => {
         this.cerrarsesion();
       }

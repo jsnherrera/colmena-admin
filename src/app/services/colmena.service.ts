@@ -4,13 +4,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Producto } from '../models/Producto';
 import { Usuario } from '../models/Usuario';
+import { CryptoService } from './crypto.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ColmenaService {
 
-  private baseUrlLocal = 'http://localhost:8080/colmena-admin/v1/api/';
+  //private baseUrl = 'http://localhost:8080/colmena-admin/v1/api/';
   private baseUrl = 'https://colmena-admin-api.herokuapp.com/colmena-admin/v1/api/';
 
   public isLogIn = false;
@@ -18,7 +19,7 @@ export class ColmenaService {
 
   private headers: HttpHeaders;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cryptoServ: CryptoService) {
     this.headers = new HttpHeaders();
     // this.headers = this.headers.set('Authorization', 'Basic ' + btoa('user:01046f71-6c4f-4200-9041-3646ea02bdc4'));
     this.headers = this.headers.set('Content-Type', 'application/json');
@@ -55,6 +56,7 @@ export class ColmenaService {
 
   saveUsuario(usuario: Usuario): Observable<any> {
     usuario.fechaaudit = new Date();
+    usuario.password = this.cryptoServ.encrypt(usuario.password);
     return this.http.post(this.baseUrl + '/saveUsuario', JSON.stringify(usuario), { headers: this.headers });
   }
 
@@ -62,8 +64,8 @@ export class ColmenaService {
     return this.http.get(this.baseUrl + '/deleteUsuario/' + id, { headers: this.headers });
   }
 
-  getVentas(): Observable<any> {
-    return this.http.get(this.baseUrl + 'getAllVentas');
+  getVentas(fechaini: Date, fechafin: Date): Observable<any> {
+    return this.http.get(this.baseUrl + 'getAllVentas/' + fechaini + '/' + fechafin);
   }
 
   saveVenta(venta: Venta): Observable<any> {

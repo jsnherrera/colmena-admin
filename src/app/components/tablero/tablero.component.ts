@@ -36,7 +36,7 @@ export class TableroComponent implements OnInit, AfterViewInit {
       this.calcularTotales();
     }
     else {
-      this.showToast(severity.warn, 'Ticket', 'No hay productos en el ticket');
+      this.showToast(severity.warn, 'No hay productos en el ticket');
     }
   }
 
@@ -62,7 +62,7 @@ export class TableroComponent implements OnInit, AfterViewInit {
         producto.precioticket = producto.precioventa;
         this.miTiket.push(producto);
       }
-      this.showToast(severity.success, 'Ticket', producto.nombre + ' agregado al ticket');
+      this.showToast(severity.success, producto.nombre + ' agregado al ticket');
     }
   }
 
@@ -93,8 +93,8 @@ export class TableroComponent implements OnInit, AfterViewInit {
     );
   }
 
-  showToast(severityToast: string, summary: string, detail: string): void {
-    this.messageService.add({ severity: severityToast, summary, detail });
+  showToast(severityToast: string, detail: string): void {
+    this.messageService.add({ severity: severityToast, summary: 'Alerta', detail });
   }
 
   guardarVenta(): void {
@@ -118,6 +118,7 @@ export class TableroComponent implements OnInit, AfterViewInit {
       }
 
       venta.detalles = detalleventa;
+      venta.estatus = 1;
 
       this.colmenaServ.saveVenta(venta).subscribe(
         (result: any) => {
@@ -127,19 +128,19 @@ export class TableroComponent implements OnInit, AfterViewInit {
             this.total = 0.0;
             this.miTiket = [];
             this.displayMaximizable = false;
-            this.showToast(severity.success, 'Exito', 'La venta se guardo correctamente');
+            this.showToast(severity.success, 'La venta se guardo correctamente');
           }
           else {
-            this.showToast(severity.error, 'Error', result);
+            this.showToast(severity.error, result);
           }
         }, err => {
           console.log(err);
-          this.showToast(severity.error, 'Error', 'Esto es vergonzoso se ha presentado un error');
+          this.showToast(severity.error, err);
         }
       );
     }
     else {
-      this.showToast(severity.warn, 'Error', 'El total/efectivo de la venta no puede ser de $0.00');
+      this.showToast(severity.warn, 'El total/efectivo de la venta no puede ser de $0.00');
     }
   }
 
@@ -151,20 +152,24 @@ export class TableroComponent implements OnInit, AfterViewInit {
     this.displayMaximizable = false;
   }
 
-  confirmVenta(strmessage: string): void {
+  confirmVenta(): void {
     this.confirmationService.confirm({
       message: '¿Estás seguro de guardar la venta?',
       acceptLabel: 'Si',
+      header: 'Alerta',
+      rejectButtonStyleClass: 'p-button-secondary',
       accept: () => {
         this.guardarVenta();
       }
     });
   }
 
-  confirmLimpiar(strmessage: string): void {
+  confirmLimpiar(): void {
     this.confirmationService.confirm({
       message: '¿Estás seguro de eliminar el ticket?',
       acceptLabel: 'Si',
+      header: 'Alerta',
+      rejectButtonStyleClass: 'p-button-secondary',
       accept: () => {
         this.limpiarTicket();
       }

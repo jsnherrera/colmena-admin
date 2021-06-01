@@ -27,6 +27,9 @@ import { MessageModule } from 'primeng/message';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { MenuModule } from 'primeng/menu';
+import { CalendarModule } from 'primeng/calendar';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 import { ColmenaService } from './services/colmena.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -80,7 +83,10 @@ import { FooterComponent } from './components/footer/footer.component';
     MessageModule,
     AvatarModule,
     AvatarGroupModule,
-    MenuModule
+    MenuModule,
+    CalendarModule,
+    OverlayPanelModule,
+    ConfirmPopupModule
   ],
   providers: [
     ColmenaService,

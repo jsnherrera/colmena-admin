@@ -26,8 +26,8 @@ export class UsuarioComponent implements OnInit {
     private messageService: MessageService
   ) { }
 
-  showToast(severityToast: string, summary: string, detail: string): void {
-    this.messageService.add({ severity: severityToast, summary, detail });
+  showToast(severityToast: string, detail: string): void {
+    this.messageService.add({ severity: severityToast, summary: 'Alerta', detail });
   }
 
   getUsuarios(): void {
@@ -47,6 +47,7 @@ export class UsuarioComponent implements OnInit {
   nuevoUsuario(): void {
     this.displayMaximizable = true;
     this.selectedUser = new Usuario();
+    this.selectedUser.estatus = 1;
     this.strTitulo = 'Nuevo usuario';
   }
 
@@ -56,45 +57,45 @@ export class UsuarioComponent implements OnInit {
     this.strTitulo = 'Editar usuario';
   }
 
-  guardarUsuario(): void {
-    if (this.selectedUser) {
-      if (this.strTitulo !== '') {
-        this.selectedUser.password = this.cryptoServ.encrypt(this.selectedUser.password);
-      }
+  guardarUsuario(strOper: string): void {
+
+    if (strOper === 'eliminar') {
       if (this.selectedUser.id === this.colmenaServ.userLogin.id) {
-        this.showToast(severity.error, 'Alerta', 'No es posible eliminar el usuario con el que estas logueado');
+        this.showToast(severity.error, 'No es posible eliminar el usuario con el que estas logueado');
+        return;
       }
-      else {
-        this.colmenaServ.saveUsuario(this.selectedUser).subscribe(
-          (result: any) => {
-            if (result.codigo === 0) {
-              if (this.strTitulo === 'Nuevo usuario') {
-                this.usuarios.push(result.usuario);
-              }
-              if (this.selectedUser.estatus === 0) {
-                this.usuarios.splice(this.usuarios.lastIndexOf(this.selectedUser), 1);
-              }
-              this.displayMaximizable = false;
-            }
-            else {
-              console.log(result);
-            }
-          }, err => {
-            console.log(err);
-          }
-        );
-      }
+      this.selectedUser.estatus = 0;
     }
+
+    this.colmenaServ.saveUsuario(this.selectedUser).subscribe(
+      (result: any) => {
+        if (result.codigo === 0) {
+          if (this.strTitulo === 'Nuevo usuario') {
+            this.usuarios.push(result.usuario);
+          }
+          if (strOper === 'eliminar') {
+            this.usuarios.splice(this.usuarios.lastIndexOf(this.selectedUser), 1);
+          }
+          this.displayMaximizable = false;
+        }
+        else {
+          console.log(result);
+        }
+      }, err => {
+        console.log(err);
+      }
+    );
   }
 
   confirmDelete(): void {
     this.confirmationService.confirm({
       message: '¿Estás seguro de eliminar este usuario?',
       acceptLabel: 'Si',
+      header: 'Alerta',
+      rejectButtonStyleClass: 'p-button-secondary',
       accept: () => {
         this.strTitulo = '';
-        this.selectedUser.estatus = 0;
-        this.guardarUsuario();
+        this.guardarUsuario('eliminar');
       }
     });
   }

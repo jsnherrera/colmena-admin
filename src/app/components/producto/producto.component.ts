@@ -74,6 +74,8 @@ export class ProductoComponent implements OnInit {
     this.confirmationService.confirm({
       message: '¿Estás seguro de eliminar este producto?',
       acceptLabel: 'Si',
+      header: 'Alerta',
+      rejectButtonStyleClass: 'p-button-secondary',
       accept: () => {
         this.strTitulo = '';
         this.selectedProduct.estatus = 0;

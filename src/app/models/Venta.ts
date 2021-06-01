@@ -6,6 +6,7 @@ export class Venta {
   public totalventa: number;
   public efectivoventa: number;
   public cambioventa: number;
+  public estatus: number;
   public fechaaudit: Date;
   public detalles: DetalleVenta[];
   constructor(
