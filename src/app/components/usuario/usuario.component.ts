@@ -36,7 +36,11 @@ export class UsuarioComponent implements OnInit {
     this.usuarios = [];
     this.colmenaServ.getUsuarios().subscribe(
       (result: any) => {
-        this.usuarios = result.usuarios;
+        for (const user of result.usuarios) {
+          user.password = this.cryptoServ.decrypt(user.password);
+          this.usuarios.push(user);
+        }
+        // this.usuarios = result.usuarios;
         this.pbLoading = false;
       }, err => {
         console.log(err);
@@ -53,7 +57,8 @@ export class UsuarioComponent implements OnInit {
   }
 
   editarUsuario(): void {
-    this.selectedUser.password = this.cryptoServ.decrypt(this.selectedUser.password);
+    // this.selectedUser.password = this.cryptoServ.decrypt(this.selectedUser.password);
+    // this.selectedUserModal = Object.assign({}, this.selectedUser);
     this.displayMaximizable = true;
     this.strTitulo = 'Editar usuario';
   }
@@ -93,7 +98,7 @@ export class UsuarioComponent implements OnInit {
         }
       );
     }
-    this.validSubmit = true;
+    this.validSubmit = false;
   }
 
   confirmDelete(): void {

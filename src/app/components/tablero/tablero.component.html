@@ -53,6 +53,7 @@
       </div>
     </div>
   </div>
+  <p-progressBar mode="indeterminate" [style]="{'height': '3px'}" *ngIf="loggingVenta"></p-progressBar>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-trash" (click)="confirmLimpiar()" label="Borrar Ticket"
       styleClass="p-button-secondary p-button-text">
@@ -65,7 +66,7 @@
 
 <div class="card">
   <p-dataView #dv [value]="products" [paginator]="true" [rows]="12" filterBy="nombre" [sortField]="sortField"
-    [sortOrder]="sortOrder" layout="grid">
+    [sortOrder]="sortOrder" layout="grid" [loading]="pbLoading">
     <ng-template pTemplate="header">
       <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
         <p-button icon="pi pi-ticket" label="Ticket" styleClass="p-mr-1 p-button-danger p-mb-2 p-mb-md-0"

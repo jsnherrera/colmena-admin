@@ -54,8 +54,9 @@ export class ProductoComponent implements OnInit {
       this.selectedProduct.descripcion &&
       this.selectedProduct.imagen &&
       this.selectedProduct.categoria &&
-      this.selectedProduct.precioventa > 0
-      && this.selectedProduct.cantidad > 0) {
+      this.selectedProduct.precioventa > 0 &&
+      this.selectedProduct.cantidad > 0 &&
+      this.selectedProduct.imagen.startsWith('http')) {
       this.colmenaServ.saveProducto(this.selectedProduct).subscribe(
         (result: any) => {
           if (result.codigo === 0) {

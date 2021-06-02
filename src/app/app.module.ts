@@ -30,6 +30,7 @@ import { MenuModule } from 'primeng/menu';
 import { CalendarModule } from 'primeng/calendar';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 import { ColmenaService } from './services/colmena.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -86,7 +87,8 @@ import { FooterComponent } from './components/footer/footer.component';
     MenuModule,
     CalendarModule,
     OverlayPanelModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    ProgressBarModule
   ],
   providers: [
     ColmenaService,

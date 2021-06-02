@@ -22,6 +22,8 @@ export class TableroComponent implements OnInit, AfterViewInit {
   cambio = 0.0;
   total = 0.0;
   cantidad = 0;
+  pbLoading = false;
+  loggingVenta = false;
 
   miTiket: Producto[];
 
@@ -85,10 +87,14 @@ export class TableroComponent implements OnInit, AfterViewInit {
   }
 
   getProductos(): void {
+    this.pbLoading = true;
     this.products = [];
     this.colmenaServ.getProductosObs().subscribe(
       (result: any) => {
         this.products = result.productos;
+        this.pbLoading = false;
+      }, (err) => {
+        this.pbLoading = false;
       }
     );
   }
@@ -120,6 +126,8 @@ export class TableroComponent implements OnInit, AfterViewInit {
       venta.detalles = detalleventa;
       venta.estatus = 1;
 
+      this.loggingVenta = true;
+
       this.colmenaServ.saveVenta(venta).subscribe(
         (result: any) => {
           if (result.codigo === 0) {
@@ -133,8 +141,10 @@ export class TableroComponent implements OnInit, AfterViewInit {
           else {
             this.showToast(severity.error, result);
           }
+          this.loggingVenta = false;
         }, err => {
           console.log(err);
+          this.loggingVenta = false;
           this.showToast(severity.error, err);
         }
       );

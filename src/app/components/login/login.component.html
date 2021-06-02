@@ -32,6 +32,7 @@
       <p-message severity="error" text="Password is required" *ngIf="password.length<1 && validLogin">
       </p-message>
       <p class="animation a5"><a (click)="showMaximizableDialog()">¿Olvidaste tu password?</a></p>
+      <p-progressBar mode="indeterminate" [style]="{'height': '3px'}" *ngIf="loggingLogin"></p-progressBar>
       <button pButton type="button" icon="pi pi-check" iconPos="left" label="Log In" class="animation a6"
         (click)="login()"></button>
     </div>

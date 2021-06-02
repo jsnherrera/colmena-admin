@@ -9,13 +9,14 @@
       <div class="p-field p-col-12 p-md-6">
         <label for="nombreUsuario">Usuario</label>
         <input id="nombreUsuario" type="text" [(ngModel)]="selectedUser.nombreUsuario" pInputText>
-        <p-message severity="error" text="Email is required" *ngIf="selectedUser.nombreUsuario.length<1 && validSubmit">
+        <p-message severity="error" text="Usuario is required"
+          *ngIf="selectedUser.nombreUsuario.length<1 && validSubmit">
         </p-message>
       </div>
       <div class="p-field p-col-12 p-md-6">
         <label for="nombre">Nombre</label>
         <input id="nombre" type="text" [(ngModel)]="selectedUser.nombre" pInputText>
-        <p-message severity="error" text="Email is required" *ngIf="selectedUser.nombre.length<1 && validSubmit">
+        <p-message severity="error" text="Nombre is required" *ngIf="selectedUser.nombre.length<1 && validSubmit">
         </p-message>
       </div>
       <div class="p-field p-col-12 p-md-6">
@@ -27,7 +28,7 @@
       <div class="p-field p-col-12 p-md-6">
         <label for="password">Password</label>
         <input id="password" type="password" [(ngModel)]="selectedUser.password" pInputText>
-        <p-message severity="error" text="Email is required" *ngIf="selectedUser.password.length<1 && validSubmit">
+        <p-message severity="error" text="Password is required" *ngIf="selectedUser.password.length<1 && validSubmit">
         </p-message>
       </div>
     </div>

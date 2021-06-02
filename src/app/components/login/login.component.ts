@@ -1,3 +1,4 @@
+import { logging } from 'protractor';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   displayMaximizable = false;
   usernameForget = '';
   validLoginForget = false;
+  loggingLogin = false;
 
   constructor(
     private colServ: ColmenaService,
@@ -56,6 +58,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   login(): void {
     if (this.username && this.password) {
+      this.loggingLogin = true;
       this.colServ.getUsuarioLogin(this.username).subscribe(
         (result: any) => {
           if (result.codigo === 0) {
@@ -73,6 +76,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
           else {
             console.log(result);
           }
+          this.loggingLogin = false;
+        }, (err) => {
+          this.loggingLogin = false;
         }
       );
     }
