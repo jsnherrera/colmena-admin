@@ -98,7 +98,7 @@ export class UsuarioComponent implements OnInit {
         }
       );
     }
-    this.validSubmit = false;
+    this.validSubmit = true;
   }
 
   confirmDelete(): void {
