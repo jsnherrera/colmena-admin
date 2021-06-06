@@ -67,6 +67,7 @@ export class ProductoComponent implements OnInit {
               this.productos.splice(this.productos.lastIndexOf(this.selectedProduct), 1);
             }
             this.displayMaximizable = false;
+            this.validSubmit = false;
           }
           else {
             console.log(result);

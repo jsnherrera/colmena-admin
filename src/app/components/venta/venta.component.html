@@ -4,10 +4,12 @@
 
   <div class="p-fluid p-formgrid p-grid">
     <div class="p-field p-col-12 p-md-4">
-      <p-calendar inputId="fechaini" [(ngModel)]="fechaini" placeholder="Fecha inicio"></p-calendar>
+      <p-calendar inputId="fechaini" [(ngModel)]="fechaini" placeholder="Fecha inicio" [readonlyInput]="true">
+      </p-calendar>
     </div>
     <div class="p-field p-col-12 p-md-4">
-      <p-calendar inputId="fechafin" [(ngModel)]="fechafin" placeholder="Fecha final"></p-calendar>
+      <p-calendar inputId="fechafin" [(ngModel)]="fechafin" placeholder="Fecha final" [readonlyInput]="true">
+      </p-calendar>
     </div>
   </div>
   <div class="p-fluid p-formgrid p-grid">
@@ -51,7 +53,7 @@
             class="p-button-text p-button-rounded p-button-plain"
             [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
         </td>
-        <td><span class="p-column-title">fechaaudit</span>{{venta.fechaaudit | date: 'short'}}</td>
+        <td><span class="p-column-title">fechaaudit</span>{{venta.fechaaudit | date: 'medium'}}</td>
         <td><span class="p-column-title">usuario</span>{{venta.usuario.nombreUsuario}}</td>
         <td><span class="p-column-title">efectivo</span>{{venta.efectivoventa | currency:'USD'}}</td>
         <td><span class="p-column-title">cambio</span>{{venta.cambioventa | currency:'USD'}}</td>
