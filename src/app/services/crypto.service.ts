@@ -6,7 +6,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class CryptoService {
 
-  secretKey = 'Secret Passphrase';
+  secretKey = 'MiSecretKey';
 
   constructor() { }
 
